@@ -1,4 +1,4 @@
-name: Docker Image CI 
+name: Docker Image CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -19,19 +19,15 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Build with Maven 
+      - name: Build with Maven
         run: mvn clean package -DskipTests
-        
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build and push Docker image
-        run: 
+        run: |
           docker build -t ivageorgieva/books:latest .
           docker tag ivageorgieva/books:latest ivageorgieva/books:${{ github.sha }}
           docker push ivageorgieva/books:latest
           docker push ivageorgieva/books:${{ github.sha }}
-          
-      
-
-    
