@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: books-app-config
+  namespace: books-namespace
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.books-namespace.svc.cluster.local/books"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: books-namespace
+data:
+  POSTGRES_DB: "books"
